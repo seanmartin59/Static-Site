@@ -5,7 +5,17 @@ const path = require('path');
 const PORT = 3000;
 
 const server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, '../public', req.url === '/' ? 'index.html' : req.url);
+    // Remove query strings and hash fragments
+    const cleanUrl = req.url.split('?')[0].split('#')[0];
+    
+    // Handle root path
+    let filePath = path.join(__dirname, '../public', 
+        cleanUrl === '/' ? 'index.html' : cleanUrl);
+
+    // If the path doesn't end with a file extension, append .html
+    if (!path.extname(filePath)) {
+        filePath += '.html';
+    }
     
     const contentType = {
         '.html': 'text/html',
