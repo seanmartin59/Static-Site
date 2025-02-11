@@ -1,4 +1,4 @@
-# Welcome to My Site
+# Welcome to Sean's Blog
 
 This is a simple, fast, and modern website built with basic web technologies.
 

@@ -32,13 +32,22 @@ async function build() {
     // Get the template
     const template = getTemplate();
 
-    // Process index page
-    const indexPath = path.join(__dirname, '../src/content/pages/index.md');
-    const indexContent = fs.readFileSync(indexPath, 'utf-8');
-    const indexHtml = processMarkdown(indexContent, template, 'Home');
-    
-    // Write the processed index.html
-    fs.writeFileSync(path.join(__dirname, '../public/index.html'), indexHtml);
+    // Process all pages in the pages directory
+    const pagesDir = path.join(__dirname, '../src/content/pages');
+    const pageFiles = fs.readdirSync(pagesDir);
+
+    for (const file of pageFiles) {
+        const filePath = path.join(pagesDir, file);
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const fileName = path.basename(file, '.md');
+        const title = fileName.charAt(0).toUpperCase() + fileName.slice(1); // Capitalize first letter
+        
+        const html = processMarkdown(content, template, title);
+        
+        // Create the output file (converting .md to .html)
+        const outputPath = path.join(__dirname, '../public', `${fileName}.html`);
+        fs.writeFileSync(outputPath, html);
+    }
     
     console.log('Site built successfully!');
 }
