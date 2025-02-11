@@ -34,7 +34,8 @@ async function build() {
 
     // Process all pages in the pages directory
     const pagesDir = path.join(__dirname, '../src/content/pages');
-    const pageFiles = fs.readdirSync(pagesDir);
+    const pageFiles = fs.readdirSync(pagesDir)
+        .filter(file => file !== 'index.md');  // Skip index.md as we're using a direct HTML file
 
     for (const file of pageFiles) {
         const filePath = path.join(pagesDir, file);
