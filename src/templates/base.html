@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
+    <title>{{title}} | James Clear</title>
     <link rel="stylesheet" href="/styles/main.css">
 </head>
 <body>
     <nav>
-        <a href="/">Home</a>
-        <a href="/blog">Blog</a>
-        <a href="/about">About</a>
-        <a href="/faq">FAQ</a>
+        <a href="/" class="logo">JAMES CLEAR</a>
+        <div class="nav-links">
+            <a href="/books">Books</a>
+            <a href="/articles">Articles</a>
+            <a href="/newsletter">Newsletter</a>
+            <a href="/app">App</a>
+            <a href="/speaking">Speaking</a>
+            <a href="/about">About</a>
+        </div>
     </nav>
+
     <main>
         {{content}}
     </main>
+
     <footer>
-        <p>&copy; 2024 Your Name</p>
+        <p>© 2024 James Clear</p>
+        <div class="footer-links">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms of Use</a>
+        </div>
     </footer>
-    <script src="/scripts/main.js"></script>
 </body>
 </html> 
