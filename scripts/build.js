@@ -106,7 +106,7 @@ async function build() {
             .replace('{{title}}', 'Home')
             .replace('{{content}}', `
                 <div class="hero">
-                    <h1>Welcome to James Clear</h1>
+                    <h1>Welcome to Sean Martin</h1>
                     <p class="description">Explore articles about habits, decision making, and continuous improvement.</p>
                 </div>
             `);
