@@ -265,4 +265,43 @@ footer a {
     color: #666;
     font-size: 0.9rem;
     margin-bottom: 15px;
+}
+
+/* Add this after the existing .hero styles */
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.profile-image {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image img {
+    width: 220%;
+    height: 220%;
+    object-fit: cover;
+    object-position: center 45%;
+    margin: -25% 0 0 -58%;
+}
+
+@media (max-width: 768px) {
+    .profile-image {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-image {
+        width: 200px;
+        height: 200px;
+    }
 } 
