@@ -22,8 +22,14 @@
         </div>
     </nav>
 
-    <main>
-        {{content}}
+    <main class="blog-post">
+        <article>
+            <header class="post-header">
+                <h1>{{title}}</h1>
+                <div class="post-meta">{{date}}</div>
+            </header>
+            {{content}}
+        </article>
     </main>
 
     <footer>

@@ -12,9 +12,16 @@ const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, '../public', 
         cleanUrl === '/' ? 'index.html' : cleanUrl);
 
-    // If the path doesn't end with a file extension, append .html
+    // If the path doesn't have an extension, try these in order:
+    // 1. path/index.html
+    // 2. path.html
     if (!path.extname(filePath)) {
-        filePath += '.html';
+        const indexPath = path.join(filePath, 'index.html');
+        if (fs.existsSync(indexPath)) {
+            filePath = indexPath;
+        } else {
+            filePath += '.html';
+        }
     }
     
     const contentType = {
@@ -27,6 +34,7 @@ const server = http.createServer((req, res) => {
 
     fs.readFile(filePath, (err, content) => {
         if (err) {
+            console.error(`Error serving ${filePath}:`, err);
             res.writeHead(404);
             res.end('File not found');
             return;
