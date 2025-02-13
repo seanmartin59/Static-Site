@@ -1,0 +1,366 @@
+/* Reset and basic styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                 Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Header/Navigation */
+nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none;
+}
+
+.logo {
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #333;
+}
+
+nav .nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+/* Main Content */
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Keep homepage content centered */
+.hero-content {
+    text-align: center;
+}
+
+/* Left align about page and blog content */
+main:not(.hero-content) {
+    text-align: left;
+}
+
+.hero {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    line-height: 1.3;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero h1, .hero p {
+    text-align: center;
+}
+
+.book-image {
+    max-width: 300px;
+    margin: 40px auto;
+}
+
+.email-signup {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.email-form {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+input[type="email"] {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #F5B111;
+    color: #000;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #e5a510;
+}
+
+.description {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 40px auto;
+    max-width: 600px;
+}
+
+/* Newsletter Section */
+.newsletter {
+    background-color: #f8f8f8;
+    padding: 60px 20px;
+    margin-top: 60px;
+}
+
+.newsletter-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.newsletter h2 {
+    margin-bottom: 30px;
+}
+
+.newsletter-items {
+    text-align: left;
+    margin: 30px 0;
+}
+
+.newsletter-item {
+    margin-bottom: 20px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #000;
+    color: #fff;
+    margin-top: 60px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Blog Posts */
+.blog-post {
+    text-align: left;
+}
+
+.post-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.post-header h1 {
+    font-size: 2.5rem;
+    line-height: 1.3;
+    margin-bottom: 15px;
+}
+
+.post-meta {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.blog-post article {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.blog-post h2 {
+    font-size: 1.8rem;
+    margin: 40px 0 20px;
+}
+
+.blog-post h3 {
+    font-size: 1.4rem;
+    margin: 30px 0 15px;
+}
+
+.blog-post p {
+    margin-bottom: 20px;
+}
+
+.blog-post ul, .blog-post ol {
+    margin: 20px 0;
+    padding-left: 25px;
+}
+
+.blog-post li {
+    margin-bottom: 10px;
+}
+
+.blog-post img {
+    max-width: 100%;
+    height: auto;
+    margin: 30px auto;
+    display: block;
+}
+
+.blog-post blockquote {
+    border-left: 4px solid #F5B111;
+    padding-left: 20px;
+    margin: 30px 0;
+    font-style: italic;
+    color: #555;
+}
+
+/* Blog List */
+.blog-list {
+    text-align: left;
+}
+
+.blog-list h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.blog-posts {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.blog-post-preview {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+.blog-post-preview:last-child {
+    border-bottom: none;
+}
+
+.blog-post-preview h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.blog-post-preview h2 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.blog-post-preview h2 a:hover {
+    color: #F5B111;
+}
+
+.blog-post-meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+/* Add this after the existing .hero styles */
+.profile-image {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image img {
+    width: 220%;
+    height: 220%;
+    object-fit: cover;
+    object-position: center 45%;
+    margin: -25% 0 0 -58%;
+}
+
+@media (max-width: 768px) {
+    .profile-image {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-image {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+/* Style lists */
+ul {
+    padding-left: 2rem;
+    margin: 1rem 0;
+}
+
+li {
+    margin: 0.5rem 0;
+}
+
+/* Add spacing between sections */
+h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Ensure paragraphs have proper spacing */
+p {
+    margin: 1rem 0;
+}
+
+.newsletter-section {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.formkit-form {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+/* Add these new styles */
+.formkit-fields {
+    justify-content: center !important;
+}
+
+.formkit-field {
+    flex: 0 1 auto !important;
+}
+
+.formkit-input {
+    min-width: 250px;
+}
+
+.seva-fields {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+} 
