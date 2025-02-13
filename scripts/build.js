@@ -2,6 +2,30 @@ const fs = require('fs-extra');
 const path = require('path');
 const marked = require('marked');
 
+// Configure marked to handle the frontmatter
+marked.use({
+    extensions: [{
+        name: 'frontmatter',
+        level: 'block',
+        start(src) {
+            return src.match(/^---\n/)?.index;
+        },
+        tokenizer(src) {
+            const match = src.match(/^---\n([\s\S]*?)\n---\n/);
+            if (match) {
+                return {
+                    type: 'frontmatter',
+                    raw: match[0],
+                    text: match[1],
+                };
+            }
+        },
+        renderer(token) {
+            return ''; // Return empty string to remove frontmatter from output
+        }
+    }]
+});
+
 // Ensure build directories exist
 fs.ensureDirSync(path.join(__dirname, '../public'));
 fs.ensureDirSync(path.join(__dirname, '../src/content/pages'));
@@ -46,13 +70,13 @@ function processFrontmatter(content) {
     if (!match) return { metadata: {}, content };
     
     const frontmatter = match[1];
-    const actualContent = match[2];
+    const actualContent = match[2].trim();
     
     const metadata = {};
     frontmatter.split('\n').forEach(line => {
         const [key, value] = line.split(': ');
         if (key && value) {
-            metadata[key.trim()] = value.trim();
+            metadata[key.trim()] = value.replace(/^"|"$/g, '').trim();
         }
     });
     
@@ -156,8 +180,7 @@ async function build() {
         
         // Store blog post data
         const fileName = path.basename(file, '.md');
-        // Remove quotes and properly format the title
-        const title = metadata.title ? metadata.title.replace(/^"|"$/g, '') : fileName.replace(/-/g, ' ');
+        const title = metadata.title || fileName.replace(/-/g, ' ');
         
         blogPosts.push({
             title: title,
@@ -167,8 +190,8 @@ async function build() {
         
         // Generate individual blog post pages
         let html = blogTemplate
-            .replace('{{title}}', title)
-            .replace('{{date}}', metadata.date || '')
+            .replace(/\{\{title\}\}/g, title)
+            .replace(/\{\{date\}\}/g, metadata.date || '')
             .replace('{{content}}', htmlContent);
         
         const outputPath = path.join(blogOutputDir, `${fileName}.html`);
