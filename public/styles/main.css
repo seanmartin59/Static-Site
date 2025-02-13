@@ -332,4 +332,35 @@ h2 {
 /* Ensure paragraphs have proper spacing */
 p {
     margin: 1rem 0;
+}
+
+.newsletter-section {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.formkit-form {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+/* Add these new styles */
+.formkit-fields {
+    justify-content: center !important;
+}
+
+.formkit-field {
+    flex: 0 1 auto !important;
+}
+
+.formkit-input {
+    min-width: 250px;
+}
+
+.seva-fields {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 } 
