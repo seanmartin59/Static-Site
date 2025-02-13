@@ -4,10 +4,15 @@
   "description": "A simple static site generator",
   "scripts": {
     "build": "node scripts/build.js",
-    "serve": "node scripts/serve.js"
+    "serve": "node scripts/serve.js",
+    "deploy": "cross-env NODE_ENV=production npm run build && gh-pages -d public"
   },
   "dependencies": {
     "marked": "^4.0.0",
     "fs-extra": "^10.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "gh-pages": "^6.3.0"
   }
 } 

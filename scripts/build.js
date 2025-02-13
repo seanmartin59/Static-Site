@@ -1,6 +1,9 @@
 const fs = require('fs-extra');
 const path = require('path');
 const marked = require('marked');
+const config = { 
+    baseUrl: process.env.NODE_ENV === 'production' ? '/Static-Site' : '' 
+}; 
 
 // Configure marked to handle the frontmatter
 marked.use({
@@ -51,6 +54,10 @@ function getBlogTemplate() {
 // Read the blog list template
 function getBlogListTemplate() {
     const templatePath = path.join(__dirname, '../src/templates/blog-list.html');
+    if (!fs.existsSync(templatePath)) {
+        console.error('Blog list template not found:', templatePath);
+        throw new Error('Blog list template not found');
+    }
     return fs.readFileSync(templatePath, 'utf-8');
 }
 
@@ -83,80 +90,81 @@ function processFrontmatter(content) {
     return { metadata, content: actualContent };
 }
 
+// Updated transform function that only adds prefix in production
+function transformHtml(content) {
+    if (process.env.NODE_ENV !== 'production') {
+        return content;
+    }
+    
+    // First remove any duplicate baseUrl prefixes that might exist
+    while (content.includes(config.baseUrl + config.baseUrl)) {
+        content = content.replace(config.baseUrl + config.baseUrl, config.baseUrl);
+    }
+    
+    // Handle blog post URLs in the listing
+    content = content.replace(
+        /href="\/blog\/([^"]+)"/g,
+        `href="${config.baseUrl}/blog/$1"`
+    );
+    
+    // Handle navigation and other root-relative URLs
+    content = content.replace(
+        /(href|src|action)="\/(?!${config.baseUrl.substring(1)})(?!http|https|\/)([^"]*?)"/g,
+        `$1="${config.baseUrl}/$2"`
+    );
+    
+    // Special case: ensure home link doesn't have a trailing slash
+    content = content.replace(
+        `href="${config.baseUrl}/"`,
+        `href="${config.baseUrl}"`
+    );
+    
+    return content;
+}
+
 async function build() {
     // Clean the public directory first
     await fs.emptyDir(path.join(__dirname, '../public'));
     
-    // Ensure all source directories exist
-    fs.ensureDirSync(path.join(__dirname, '../src/styles'));
-    fs.ensureDirSync(path.join(__dirname, '../src/scripts'));
-    fs.ensureDirSync(path.join(__dirname, '../src/images'));
-    
-    // Ensure all public directories exist
-    fs.ensureDirSync(path.join(__dirname, '../public/styles'));
-    fs.ensureDirSync(path.join(__dirname, '../public/scripts'));
-    fs.ensureDirSync(path.join(__dirname, '../public/images'));
-    
-    // Copy static assets if they exist
-    const copyIfExists = async (src, dest) => {
-        if (fs.existsSync(src)) {
-            await fs.copy(src, dest);
-        }
-    };
-
-    await copyIfExists(
+    // Copy static assets
+    await fs.copy(
         path.join(__dirname, '../src/styles'), 
         path.join(__dirname, '../public/styles')
     );
-    await copyIfExists(
-        path.join(__dirname, '../src/scripts'), 
-        path.join(__dirname, '../public/scripts')
-    );
-    await copyIfExists(
+    await fs.copy(
         path.join(__dirname, '../src/images'), 
         path.join(__dirname, '../public/images')
     );
     
-    // Copy index.html if it exists in src, otherwise create a basic one
-    const srcIndexPath = path.join(__dirname, '../src/index.html');
-    const publicIndexPath = path.join(__dirname, '../public/index.html');
-    
-    if (fs.existsSync(srcIndexPath)) {
-        await fs.copy(srcIndexPath, publicIndexPath);
-    } else {
-        // Create a basic index.html using the base template
-        const baseTemplate = getTemplate();
-        const indexHtml = baseTemplate
-            .replace('{{title}}', 'Home')
-            .replace('{{content}}', `
-                <div class="hero">
-                    <h1>Welcome to Sean Martin</h1>
-                    <p class="description">Explore articles about habits, decision making, and continuous improvement.</p>
-                </div>
-            `);
-        fs.writeFileSync(publicIndexPath, indexHtml);
+    // Process HTML files
+    async function processHtmlFile(src, dest) {
+        const content = await fs.readFile(src, 'utf-8');
+        const transformedContent = transformHtml(content);
+        await fs.outputFile(dest, transformedContent);
     }
-    
-    // Get templates
-    const baseTemplate = getTemplate();
-    const blogTemplate = getBlogTemplate();
 
-    // Process all pages in the pages directory
+    // Copy and transform index.html
+    await processHtmlFile(
+        path.join(__dirname, '../src/index.html'),
+        path.join(__dirname, '../public/index.html')
+    );
+
+    // Process markdown pages
     const pagesDir = path.join(__dirname, '../src/content/pages');
-    const pageFiles = fs.readdirSync(pagesDir)
-        .filter(file => file !== 'index.md');  // Skip index.md as we're using a direct HTML file
+    const pageFiles = fs.readdirSync(pagesDir);
 
     for (const file of pageFiles) {
-        const filePath = path.join(pagesDir, file);
-        const content = fs.readFileSync(filePath, 'utf-8');
+        const content = fs.readFileSync(path.join(pagesDir, file), 'utf-8');
         const fileName = path.basename(file, '.md');
-        const title = fileName.charAt(0).toUpperCase() + fileName.slice(1); // Capitalize first letter
+        const title = fileName.charAt(0).toUpperCase() + fileName.slice(1);
         
-        const html = processMarkdown(content, baseTemplate, title);
+        const html = processMarkdown(content, getTemplate(), title);
+        const transformedHtml = transformHtml(html);
         
-        // Create the output file (converting .md to .html)
-        const outputPath = path.join(__dirname, '../public', `${fileName}.html`);
-        fs.writeFileSync(outputPath, html);
+        fs.writeFileSync(
+            path.join(__dirname, '../public', `${fileName}.html`),
+            transformedHtml
+        );
     }
     
     // Process blog posts
@@ -185,17 +193,18 @@ async function build() {
         blogPosts.push({
             title: title,
             date: metadata.date || '',
-            url: `/blog/${fileName}.html`
+            url: `/blog/${fileName}.html`  // Keep it simple, transformHtml will handle the prefix
         });
         
         // Generate individual blog post pages
-        let html = blogTemplate
+        let html = getBlogTemplate()
             .replace(/\{\{title\}\}/g, title)
             .replace(/\{\{date\}\}/g, metadata.date || '')
             .replace('{{content}}', htmlContent);
         
+        const transformedHtml = transformHtml(html);
         const outputPath = path.join(blogOutputDir, `${fileName}.html`);
-        fs.writeFileSync(outputPath, html);
+        fs.writeFileSync(outputPath, transformedHtml);
     }
 
     // Generate blog listing page
@@ -211,7 +220,8 @@ async function build() {
         .join('');
 
     const blogListHtml = blogListTemplate.replace('{{blog_posts}}', blogListContent);
-    fs.writeFileSync(path.join(__dirname, '../public/blog/index.html'), blogListHtml);
+    const transformedBlogListHtml = transformHtml(blogListHtml);
+    fs.writeFileSync(path.join(__dirname, '../public/blog/index.html'), transformedBlogListHtml);
     
     console.log('Site built successfully!');
 }
