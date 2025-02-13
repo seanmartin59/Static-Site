@@ -1,18 +1,23 @@
 # About
 
-## Who We Are
+## Who?
+Hey, I'm Sean.  
+I'm working on a clever way to describe all of the different facets of my self into one clever little quip, that I'll eventually add here.
 
-We're passionate about creating and sharing valuable content. This site is built with simplicity in mind, focusing on content rather than complex frameworks.
+## What?
+Over time, this site will become a hub for everything I've been up to:
 
-## Our Mission
+* Work
+* Travel
+* Goals
+* Favorite Things
+* Accountability Mechanism
 
-To demonstrate that building a modern website doesn't need to be complicated. We believe in:
+All that kind of stuff.
 
-- Simple, clean design
-- Fast loading pages
-- Easy content management
-- Accessible to everyone
+## Let's Connect
 
-## Contact
-
-Have questions? Feel free to [reach out](/contact)! 
+* Email me: [sean.martin59@gmail.com](mailto:sean.martin59@gmail.com)
+* [Twitter](https://twitter.com)
+* [Instagram](https://instagram.com)
+* [LinkedIn](https://linkedin.com)

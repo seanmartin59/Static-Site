@@ -51,12 +51,22 @@ nav a:hover {
 main {
     max-width: 800px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 2rem;
+}
+
+/* Keep homepage content centered */
+.hero-content {
     text-align: center;
+}
+
+/* Left align about page and blog content */
+main:not(.hero-content) {
+    text-align: left;
 }
 
 .hero {
     margin-bottom: 60px;
+    text-align: center;
 }
 
 .hero h1 {
@@ -66,6 +76,10 @@ main {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.hero h1, .hero p {
+    text-align: center;
 }
 
 .book-image {
@@ -268,13 +282,6 @@ footer a {
 }
 
 /* Add this after the existing .hero styles */
-.hero-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
 .profile-image {
     width: 250px;
     height: 250px;
@@ -304,4 +311,25 @@ footer a {
         width: 200px;
         height: 200px;
     }
+}
+
+/* Style lists */
+ul {
+    padding-left: 2rem;
+    margin: 1rem 0;
+}
+
+li {
+    margin: 0.5rem 0;
+}
+
+/* Add spacing between sections */
+h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Ensure paragraphs have proper spacing */
+p {
+    margin: 1rem 0;
 } 
