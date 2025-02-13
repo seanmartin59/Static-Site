@@ -156,15 +156,18 @@ async function build() {
         
         // Store blog post data
         const fileName = path.basename(file, '.md');
+        // Remove quotes and properly format the title
+        const title = metadata.title ? metadata.title.replace(/^"|"$/g, '') : fileName.replace(/-/g, ' ');
+        
         blogPosts.push({
-            title: metadata.title || 'Blog Post',
+            title: title,
             date: metadata.date || '',
             url: `/blog/${fileName}.html`
         });
         
         // Generate individual blog post pages
         let html = blogTemplate
-            .replace('{{title}}', metadata.title || 'Blog Post')
+            .replace('{{title}}', title)
             .replace('{{date}}', metadata.date || '')
             .replace('{{content}}', htmlContent);
         
