@@ -104,19 +104,25 @@ function transformHtml(content) {
     // Handle blog post URLs in the listing
     content = content.replace(
         /href="\/blog\/([^"]+)"/g,
-        `href="${config.baseUrl}/blog/$1"`
+        (match, path) => {
+            // Don't modify if already has baseUrl
+            if (match.includes(config.baseUrl)) {
+                return match;
+            }
+            return `href="${config.baseUrl}/blog/${path}"`;
+        }
     );
     
-    // Handle navigation and other root-relative URLs
+    // Handle all root-relative URLs (href and src attributes)
     content = content.replace(
-        /(href|src|action)="\/(?!${config.baseUrl.substring(1)})(?!http|https|\/)([^"]*?)"/g,
-        `$1="${config.baseUrl}/$2"`
-    );
-    
-    // Special case: ensure home link doesn't have a trailing slash
-    content = content.replace(
-        `href="${config.baseUrl}/"`,
-        `href="${config.baseUrl}"`
+        /(href|src)="\/([^"]*?)"/g,
+        (match, attr, path) => {
+            // Don't modify if it's already prefixed or is an absolute URL
+            if (path.startsWith('http') || path.startsWith(config.baseUrl.substring(1))) {
+                return match;
+            }
+            return `${attr}="${config.baseUrl}/${path}"`;
+        }
     );
     
     return content;
@@ -126,7 +132,7 @@ async function build() {
     // Clean the public directory first
     await fs.emptyDir(path.join(__dirname, '../public'));
     
-    // Copy static assets
+    // Copy static assets first
     await fs.copy(
         path.join(__dirname, '../src/styles'), 
         path.join(__dirname, '../public/styles')
