@@ -363,4 +363,44 @@ p {
     display: flex;
     gap: 10px;
     justify-content: center;
+}
+
+/* Projects Page Styles */
+.projects-section {
+    margin-bottom: 3rem;
+}
+
+.projects-section h2 {
+    color: #333;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #eee;
+}
+
+.projects-section h3 {
+    color: #444;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.projects-section p {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.projects-section a {
+    color: #1677BE;
+    text-decoration: none;
+}
+
+.projects-section a:hover {
+    text-decoration: underline;
+}
+
+/* Style the "Coming Soon" text */
+.projects-section a:contains("[Coming Soon]") {
+    color: #888;
+    cursor: default;
+    text-decoration: none;
 } 
